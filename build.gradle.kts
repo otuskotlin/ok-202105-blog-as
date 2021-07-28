@@ -1,15 +1,21 @@
 plugins {
-    kotlin("jvm") version "1.5.10" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    kotlin("jvm") apply false
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
-group = "ru.otus.otuskotlin.blogas"
+group = "ru.otus.otuskotlin.blog"
 version = "0.0.1"
+description = "OTUS Kotlin course project"
 
 allprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     repositories {
-        mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
     }
+}
+
+subprojects {
+    group = rootProject.group
+    version = rootProject.version
 }
