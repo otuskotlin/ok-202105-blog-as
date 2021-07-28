@@ -1,6 +1,8 @@
 # ok-202105-blog-as
 Блог, Сумин Александр
 
+![Build](https://github.com/otuskotlin/ok-202105-blog-as/actions/workflows/build.yml/badge.svg)
+
 ### Описание:
 Блог -  как и большинство подобных ресурсов позволяет пользователю публиковать некие посты. 
 
