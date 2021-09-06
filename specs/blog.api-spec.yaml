@@ -1,0 +1,987 @@
+openapi: 3.0.1
+info:
+  title: Blog
+  description: 'Blog - учебный проект курса "Backend разработка на Kotlin"'
+  license:
+    name: MIT open source license
+    url: https://github.com/otuskotlin/ok-202105-blog-as/blob/main/LICENSE
+  version: 0.0.1
+servers:
+  - url: https://localhost/
+tags:
+  - name: post
+    description: CRUD для постов
+  #   todo: будет реализовано в восьмом модуле
+  - name: user
+    description: CRUD для пользователей
+  - name: comment
+    description: CRUD для комментариев
+  - name: like
+    description: Добавление/удаление/получение лайков сущности
+paths:
+  /post/init:
+    post:
+      tags:
+        - post
+      summary: Получить статус при инициализации
+      operationId: initPost
+      requestBody:
+        description: Объект запроса для инициализации при старте приложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitPostRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitPostResponse'
+
+  /post/create:
+    post:
+      tags:
+        - post
+      summary: Создать новый пост в блоге
+      operationId: createPost
+      requestBody:
+        description: Объект запроса для создания нового поста
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePostResponse'
+
+  /post/read:
+    post:
+      tags:
+        - post
+      summary: Получить информацию о посте
+      operationId: readPost
+      requestBody:
+        description: Объект запроса для получения информации о посте
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadPostRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPostResponse'
+
+  /post/update:
+    post:
+      tags:
+        - post
+      summary: Обновить пост
+      operationId: updatePost
+      requestBody:
+        description: Объект запроса для обновления поста
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePostRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePostResponse'
+
+  /post/delete:
+    post:
+      tags:
+        - post
+      summary: Удалить пост
+      operationId: deletePost
+      requestBody:
+        description: Объект запроса для удаления поста
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePostRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePostResponse'
+
+  /post/search:
+    post:
+      tags:
+        - post
+      summary: Поиск постов
+      operationId: searchPost
+      requestBody:
+        description: Объект запроса для поиска постов
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPostRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchPostResponse'
+
+  /comment/create:
+    post:
+      tags:
+        - comment
+      summary: Добавить комментарий к посту
+      operationId: createComment
+      requestBody:
+        description: Объект запроса для добавления нового комментария
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCommentResponse'
+
+  /comment/update:
+    post:
+      tags:
+        - comment
+      summary: Редактировать комментарий
+      operationId: updateComment
+      requestBody:
+        description: Объект запроса для обновления комментария
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommentRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCommentResponse'
+
+  /comment/read:
+    post:
+      tags:
+        - comment
+      summary: Получить информацию о комментарии
+      operationId: readComment
+      requestBody:
+        description: Объект запроса для получения информации о комментарии
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadCommentRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCommentResponse'
+
+  /comment/delete:
+    post:
+      tags:
+        - comment
+      summary: Удалить комментарий
+      operationId: deletecomment
+      requestBody:
+        description: Объект запроса для удаления комментария
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCommentRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCommentResponse'
+
+  /comment/search:
+    post:
+      tags:
+        - comment
+      summary: Поиск комментариев
+      operationId: searchComment
+      requestBody:
+        description: Объект запроса для поиска комментариев у поста
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCommentRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCommentResponse'
+
+  /like/create:
+    post:
+      tags:
+        - like
+      summary: Добавить лайк к записи
+      operationId: createLike
+      requestBody:
+        description: Объект запроса для добавления нового лайка
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLikeRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLikeResponse'
+
+
+  /like/delete:
+    post:
+      tags:
+        - like
+      summary: Удаления лайка у записи
+      operationId: deleteLike
+      requestBody:
+        description: Объект запроса для добавления нового лайка
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteLikeRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteLikeResponse'
+
+
+  /like/getCount:
+    post:
+      tags:
+        - like
+      summary: Получение числа лайков у записи
+      operationId: getLikes
+      requestBody:
+        description: Объект запроса для получения числа лайков
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetLikesRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLikesResponse'
+components:
+  schemas:
+
+    BaseMessage:
+      type: object
+      description: Базовый класс как для запросов, так и для ответов
+      properties:
+        messageType:
+          type: string
+          title: Дискриминатор
+          description: Дискриминатор, содержащий тип класса сообщения и использующийся для десериализации
+      discriminator:
+        propertyName: messageType
+
+    BaseRequest:
+      description: Базовый класс для всех запросов
+      allOf:
+        #        - $ref: '#/components/schemas/BaseMessage'
+        - type: object
+          properties:
+            requestId:
+              type: string
+
+    BaseResponse:
+      description: Базовый класс для всех ответов
+      allOf:
+        #        - $ref: '#/components/schemas/BaseMessage'
+        - type: object
+          properties:
+            requestId:
+              type: string
+            result:
+              type: string
+              enum:
+                - success
+                - error
+            errors:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestError'
+
+    RequestError:
+      type: object
+      description: Описание ошибки обработки запроса
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          format: int64
+        field:
+          type: string
+
+    PostStatus:
+      type: string
+      description: 'Статус поста. Возможные значения: черновик, опубликовано'
+      enum:
+        - draft
+        - published
+
+
+    CreatablePost:
+      type: object
+      description: Структура с данными поста для запроса о создании поста
+      properties:
+        title:
+          type: string
+          title: Заголовок поста
+          description: Название поста
+        content:
+          type: string
+          title: Тело поста
+          description: Тело поста
+        ownerId:
+          type: string
+          title: Идентификатор автора поста
+          description: Идентификатор пользователя, который опубликовал пост
+        status:
+          $ref: '#/components/schemas/PostStatus'
+
+    UpdatablePost:
+      description: Структура для данных поста в запросе на обновление
+      allOf:
+        - $ref: '#/components/schemas/CreatablePost'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Идентификатор поста
+
+    ResponsePost:
+      description: Структура, описывающая пост в ответе
+      allOf:
+        - $ref: '#/components/schemas/UpdatablePost'
+        - type: object
+          properties:
+            createdAt:
+              type: string
+              format: date-time
+
+
+    BaseDebugRequest:
+      type: object
+      description: Структура с описанием отладочных параметров запроса
+      properties:
+        mode:
+          type: string
+          default: prod
+          enum:
+            - prod
+            - test
+            - stub
+
+    BasePaginatedRequest:
+      type: object
+      description: Структура с описанием запрашиваемой страницы в запросах списков
+      properties:
+        size:
+          type: integer
+          description: Размер запрашиваемой страницы
+          format: int32
+        lastId:
+          type: string
+          description: Идентификатор последнего объекта предыдущей страницы
+
+    BasePaginatedResponse:
+      type: object
+      description: Структура с описанием страницы в ответе
+      properties:
+        size:
+          type: integer
+          description: Размер запрашиваемой страницы
+          format: int32
+        lastId:
+          type: string
+          description: Идентификатор последнего объекта предыдущей страницы
+        position:
+          type: string
+          enum:
+            - first
+            - middle
+            - last
+
+    InitPostRequest:
+      description: Структура для запроса начального состояния при старте вэб-клиента
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+
+    InitPostResponse:
+      description: Структура для ответа с начальным состоянием при старте вэб-клиента
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+
+
+    CreatePostRequest:
+      description: Структура для запроса создания нового поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            createPost:
+              $ref: '#/components/schemas/CreatablePost'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyTitle
+                        - databaseError
+
+
+    CreatePostResponse:
+      description: Структура для ответа на запрос о создании поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            createdPost:
+              $ref: '#/components/schemas/ResponsePost'
+
+
+
+
+    ReadPostRequest:
+      description: Структура для получения постов
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            readPostId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+    ReadPostResponse:
+      description: Структура для ответа на запрос с информацией о посте
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            readPost:
+              $ref: '#/components/schemas/ResponsePost'
+
+    UpdatePostRequest:
+      description: Структура для запроса обновления существующего поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            updatePost:
+              $ref: '#/components/schemas/UpdatablePost'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyTitle
+                        - databaseError
+    UpdatePostResponse:
+      description: Структура для ответа на запрос с обновлением поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            updatedPost:
+              $ref: '#/components/schemas/ResponsePost'
+
+
+    DeletePostRequest:
+      description: Структура для запроса удаления поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            deletePostId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+
+    DeletePostResponse:
+      description: Структура для ответа на запрос об удалении поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            deletedPost:
+              $ref: '#/components/schemas/ResponsePost'
+
+
+
+    SearchPostRequest:
+      description: Структура для запроса поиска постов
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            page:
+              $ref: '#/components/schemas/BasePaginatedRequest'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+    SearchPostResponse:
+      description: Структура для ответа на запрос поиска постов
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            page:
+              $ref: '#/components/schemas/BasePaginatedResponse'
+            foundPosts:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResponsePost'
+
+
+    CreateCommentRequest:
+      description: Структура для запроса создания нового поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            createComment:
+              $ref: '#/components/schemas/CreatableComment'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyTitle
+                        - databaseError
+
+
+    CreateCommentResponse:
+      description: Структура для ответа на запрос о создании поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            createdComment:
+              $ref: '#/components/schemas/ResponseComment'
+
+
+    ReadCommentRequest:
+      description: Структура для получения комментария
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            readPostId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+    ReadCommentResponse:
+      description: Структура для ответа на запрос с информацией о комментарии
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            readComment:
+              $ref: '#/components/schemas/ResponseComment'
+
+
+    UpdateCommentRequest:
+      description: Структура для запроса обновления существующего комментария
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            updateComment:
+              $ref: '#/components/schemas/UpdatableComment'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyTitle
+                        - databaseError
+
+
+    UpdateCommentResponse:
+      description: Структура для ответа на запрос с обновлением комментария
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            updatedComment:
+              $ref: '#/components/schemas/ResponseComment'
+
+
+    DeleteCommentRequest:
+      description: Структура для запроса удаления поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            deleteCommentId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+    DeleteCommentResponse:
+      description: Структура для ответа на запрос об удалении поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            deletedComment:
+              $ref: '#/components/schemas/ResponseComment'
+
+
+    SearchCommentRequest:
+      description: Структура для запроса получения комментариев
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            page:
+              $ref: '#/components/schemas/BasePaginatedRequest'
+
+    SearchCommentResponse:
+      description: Структура для ответа на запрос получения комментариев
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            page:
+              $ref: '#/components/schemas/BasePaginatedResponse'
+            foundComments:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResponseComment'
+
+    CreateLikeRequest:
+      description: Структура для запроса создания нового поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            createLike:
+              $ref: '#/components/schemas/CreatableLike'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyTitle
+                        - databaseError
+
+
+    CreateLikeResponse:
+      description: Структура для ответа на запрос о создании поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            createdLike:
+              $ref: '#/components/schemas/ResponseLike'
+
+
+    DeleteLikeRequest:
+      description: Структура для запроса удаления поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            deleteLikeId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+    DeleteLikeResponse:
+      description: Структура для ответа на запрос об удалении поста
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            deletedLike:
+              $ref: '#/components/schemas/ResponseLike'
+
+
+    CreatableComment:
+      type: object
+      description: Структура с данными поста для добавления комментария к посту
+      properties:
+        postId:
+          type: string
+          title: Идентификатор поста
+          description: Идентификатор поста, который необходимо прокомментировать
+        ownerId:
+          type: string
+          title: Идентификатор автора комментария
+          description: Идентификатор пользователя, который комментирует пост
+        text:
+          type: string
+          title: Текст комментария
+          description: Содержимое комментария
+
+
+    UpdatableComment:
+      description: Структура для данных поста в запросе на обновление
+      allOf:
+        - $ref: '#/components/schemas/CreatableComment'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Идентификатор комментария
+
+
+    ResponseComment:
+      description: Структура, описывающая комментарий в ответе
+      allOf:
+        - $ref: '#/components/schemas/UpdatableComment'
+        - type: object
+          properties:
+            createdAt:
+              type: string
+              format: date-time
+              title: Дата добавления комментария
+            edited:
+              type: boolean
+              title: Флаг об изменении комментария
+              description: Флаг об изменении комментария принимает значение true, если автор его редактирует
+
+
+    ResponseLike:
+      description: Структура, описывающая лайк в ответе
+      allOf:
+        - $ref: '#/components/schemas/CreatableLike'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Идентификатор комментария
+
+
+    CreatableLike:
+      type: object
+      description: Структура с данными для добавления лайка к сущности
+      properties:
+        entityType:
+          $ref: '#/components/schemas/EntityType'
+        targetId:
+          type: string
+          title: Идентификатор лайкаемой сущности
+          description: Идентификатор сущности, которой необходимо присвоить лайк
+        ownerId:
+          type: string
+          title: Идентификатор автора лайка
+          description: Идентификатор пользователя, который лайкает сущность
+
+    GetLikesRequest:
+      description: Структура для получения комментария
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            getLikes:
+              $ref: '#/components/schemas/GetLikesCount'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+    GetLikesResponse:
+      description: Структура для ответа на запрос с информацией о комментарии
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            likes:
+              $ref: '#/components/schemas/LikesCount'
+
+    GetLikesCount:
+      description: структура для запроса информации о числе лайков
+      properties:
+        targetId:
+          type: string
+        entityType:
+          $ref: '#/components/schemas/EntityType'
+
+    LikesCount:
+      description: структура для ответа о числе лайков
+      allOf:
+        - $ref: '#/components/schemas/GetLikesCount'
+        - type: object
+          properties:
+            count:
+              type: string
+
+    EntityType:
+      type: string
+      description: >
+        Допустимые типы сущностей
+        • post - пост
+        • comment - комментарий
+      enum:
+        - post
+        - comment

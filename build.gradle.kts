@@ -8,7 +8,9 @@ version = "0.0.1"
 description = "OTUS Kotlin course project"
 
 allprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    if (project.name != "ok-blog-be-transport-openapi") {
+        apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    }
 
     repositories {
         maven("https://plugins.gradle.org/m2/")
