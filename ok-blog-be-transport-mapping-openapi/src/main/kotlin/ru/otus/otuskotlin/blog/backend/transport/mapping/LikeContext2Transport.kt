@@ -3,6 +3,7 @@ package ru.otus.otuskotlin.blog.backend.transport.mapping
 import ru.otus.otuskotlin.blog.backend.common.context.LikeContext
 import ru.otus.otuskotlin.blog.backend.common.context.Operations
 import ru.otus.otuskotlin.blog.backend.common.exceptions.OperationNotSetException
+import ru.otus.otuskotlin.blog.backend.common.exceptions.WrongOperationSetException
 import ru.otus.otuskotlin.blog.backend.common.models.IError
 import ru.otus.otuskotlin.blog.backend.common.models.OwnerIdModel
 import ru.otus.otuskotlin.blog.backend.common.models.PaginatedModel
@@ -47,7 +48,7 @@ fun LikeContext.toResponse() = when (operation) {
     Operations.DELETE -> toDeleteResponse()
     Operations.LIKES_COUNT -> toLikesCountResponse()
     Operations.NONE -> throw OperationNotSetException("Operation for error response is not set")
-    else -> throw IllegalArgumentException("Wrong operation")
+    else -> throw WrongOperationSetException("Wrong operation")
 }
 
 private fun PaginatedModel.toTransport() = BasePaginatedResponse(

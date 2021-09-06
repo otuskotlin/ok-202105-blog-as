@@ -3,6 +3,7 @@ package ru.otus.otuskotlin.blog.backend.transport.mapping
 import ru.otus.otuskotlin.blog.backend.common.context.CommentContext
 import ru.otus.otuskotlin.blog.backend.common.context.Operations
 import ru.otus.otuskotlin.blog.backend.common.exceptions.OperationNotSetException
+import ru.otus.otuskotlin.blog.backend.common.exceptions.WrongOperationSetException
 import ru.otus.otuskotlin.blog.backend.common.models.IError
 import ru.otus.otuskotlin.blog.backend.common.models.OwnerIdModel
 import ru.otus.otuskotlin.blog.backend.common.models.PaginatedModel
@@ -66,7 +67,7 @@ fun CommentContext.toResponse() = when (operation) {
     Operations.DELETE -> toDeleteResponse()
     Operations.SEARCH -> toSearchResponse()
     Operations.NONE -> throw OperationNotSetException("Operation for error response is not set")
-    else -> throw IllegalArgumentException("Wrong operation")
+    else -> throw WrongOperationSetException("Wrong operation")
 }
 
 private fun PaginatedModel.toTransport() = BasePaginatedResponse(

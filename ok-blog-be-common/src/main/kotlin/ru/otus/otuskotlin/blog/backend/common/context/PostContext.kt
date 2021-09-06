@@ -27,12 +27,17 @@ data class PostContext(
      * @param failingStatus Необходимо ли установить статус выполнения в FAILING (true/false)
      * @param
      */
-    fun addError(failingStatus: Boolean = true, lambda: CommonErrorModel.() -> Unit) = apply {
+    fun addError(error: IError, failingStatus: Boolean = true) = apply {
         if (failingStatus) status = CorStatus.FAILING
-        errors.add(
-            CommonErrorModel(
-                field = "_", level = IError.Level.ERROR
-            ).apply(lambda)
-        )
+        errors.add(error)
+    }
+
+    fun addError(
+        e: Throwable,
+        level: IError.Level = IError.Level.ERROR,
+        field: String = "",
+        failingStatus: Boolean = true
+    ) {
+        addError(CommonErrorModel(e, field = field, level = level), failingStatus)
     }
 }
