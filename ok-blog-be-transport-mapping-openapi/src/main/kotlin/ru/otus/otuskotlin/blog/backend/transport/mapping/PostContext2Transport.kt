@@ -38,7 +38,7 @@ fun PostContext.toReadResponse() = ReadPostResponse(
 fun PostContext.toCreateResponse() = CreatePostResponse(
     requestId = onRequest.takeIf { it.isNotBlank() },
     errors = errors.takeIf { it.isNotEmpty() }?.map { it.toTransport() },
-
+    createdPost = responsePost.takeIf { it != PostModel() }?.toTransport(),
     result = if (errors.find { it.level == IError.Level.ERROR } == null) CreatePostResponse.Result.SUCCESS
     else CreatePostResponse.Result.ERROR
 )
