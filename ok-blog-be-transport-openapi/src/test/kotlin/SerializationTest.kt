@@ -11,7 +11,7 @@ class SerializationTest {
     private val requestId = "42"
     val createRequest = CreatePostRequest(
         requestId = requestId,
-        createPost = CreatablePost(
+        creatablePost = CreatablePost(
             title = "This is header",
             content = "This is text. Do u see it?",
             ownerId = "111",
@@ -40,7 +40,7 @@ class SerializationTest {
         val json = om.writeValueAsString(createRequest)
         val deserialized = om.readValue(json, BaseMessage::class.java) as CreatePostRequest
 
-        assertEquals("This is header", deserialized.createPost?.title)
+        assertEquals("This is header", deserialized.creatablePost?.title)
         assertEquals(requestId, deserialized.requestId)
     }
 }

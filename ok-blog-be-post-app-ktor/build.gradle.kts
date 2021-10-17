@@ -50,8 +50,10 @@ dependencies {
     implementation(project(":ok-blog-be-transport-mapping-openapi"))
     // service
     implementation(project(":ok-blog-be-post-service-openapi"))
-
+    // logic
+    implementation(project(":ok-blog-be-logics"))
     testImplementation(project(":ok-blog-be-stubs"))
     testImplementation(kotlin("test-junit"))
     testImplementation(ktor("server-test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
+    testImplementation(project(":ok-blog-be-stubs"))
 }

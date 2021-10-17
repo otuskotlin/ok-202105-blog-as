@@ -13,6 +13,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.jackson.jackson
 import io.ktor.routing.routing
 import ru.otus.otuskotlin.blog.backend.services.PostService
+import ru.otus.otuskotlin.blog.logics.PostCrud
 
 // function with config (application.conf)
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -20,7 +21,8 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("UNUSED_PARAMETER") // Referenced in application.conf
 @JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    val postService = PostService()
+    val postCrud = PostCrud()
+    val postService = PostService(postCrud)
 
     install(DefaultHeaders)
     install(CORS) {

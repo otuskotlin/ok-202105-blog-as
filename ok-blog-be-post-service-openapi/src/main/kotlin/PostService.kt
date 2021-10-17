@@ -1,6 +1,5 @@
 package ru.otus.otuskotlin.blog.backend.services
 
-import blog.stubs.PostStub
 import ru.otus.otuskotlin.blog.backend.common.context.PostContext
 import ru.otus.otuskotlin.blog.backend.transport.mapping.setQuery
 import ru.otus.otuskotlin.blog.backend.transport.mapping.toCreateResponse
@@ -9,6 +8,7 @@ import ru.otus.otuskotlin.blog.backend.transport.mapping.toInitResponse
 import ru.otus.otuskotlin.blog.backend.transport.mapping.toReadResponse
 import ru.otus.otuskotlin.blog.backend.transport.mapping.toSearchResponse
 import ru.otus.otuskotlin.blog.backend.transport.mapping.toUpdateResponse
+import ru.otus.otuskotlin.blog.logics.PostCrud
 import ru.otus.otuskotlin.blog.openapi.models.BaseMessage
 import ru.otus.otuskotlin.blog.openapi.models.CreatePostRequest
 import ru.otus.otuskotlin.blog.openapi.models.CreatePostResponse
@@ -23,34 +23,29 @@ import ru.otus.otuskotlin.blog.openapi.models.SearchPostResponse
 import ru.otus.otuskotlin.blog.openapi.models.UpdatePostRequest
 import ru.otus.otuskotlin.blog.openapi.models.UpdatePostResponse
 
-class PostService {
+class PostService(private val crud: PostCrud) {
     suspend fun createPost(context: PostContext, request: CreatePostRequest): CreatePostResponse {
-        context.setQuery(request)
-        context.responsePost = PostStub.getModel()
+        crud.create(context.setQuery(request))
         return context.toCreateResponse()
     }
 
     suspend fun readPost(context: PostContext, request: ReadPostRequest): ReadPostResponse {
-        context.setQuery(request)
-        context.responsePost = PostStub.getModel()
+        crud.read(context.setQuery(request))
         return context.toReadResponse()
     }
 
     suspend fun updatePost(context: PostContext, request: UpdatePostRequest): UpdatePostResponse {
-        context.setQuery(request)
-        context.responsePost = PostStub.getModel()
+        crud.update(context.setQuery(request))
         return context.toUpdateResponse()
     }
 
     suspend fun deletePost(context: PostContext, request: DeletePostRequest): DeletePostResponse {
-        context.setQuery(request)
-        context.responsePost = PostStub.getModel()
+        crud.delete(context.setQuery(request))
         return context.toDeleteResponse()
     }
 
     suspend fun searchPost(context: PostContext, request: SearchPostRequest): SearchPostResponse {
-        context.setQuery(request)
-        context.responsePosts = PostStub.getModels().toMutableList()
+        crud.search(context.setQuery(request))
         return context.toSearchResponse()
     }
 
