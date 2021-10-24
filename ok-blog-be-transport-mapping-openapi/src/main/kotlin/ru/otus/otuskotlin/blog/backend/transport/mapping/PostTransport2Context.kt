@@ -4,9 +4,11 @@ import ru.otus.otuskotlin.blog.backend.common.context.Operations
 import ru.otus.otuskotlin.blog.backend.common.context.PostContext
 import ru.otus.otuskotlin.blog.backend.common.models.OwnerIdModel
 import ru.otus.otuskotlin.blog.backend.common.models.PaginatedModel
+import ru.otus.otuskotlin.blog.backend.common.models.StubCase
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostIdModel
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostModel
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostStatusModel
+import ru.otus.otuskotlin.blog.openapi.models.BaseDebugRequest
 import ru.otus.otuskotlin.blog.openapi.models.BasePaginatedRequest
 import ru.otus.otuskotlin.blog.openapi.models.CreatablePost
 import ru.otus.otuskotlin.blog.openapi.models.CreatePostRequest
@@ -25,31 +27,36 @@ fun PostContext.setQuery(query: InitPostRequest) = apply {
 fun PostContext.setQuery(query: CreatePostRequest) = apply {
     operation = Operations.CREATE
     onRequest = query.requestId ?: ""
-    requestPost = query.createPost?.toModel() ?: PostModel()
+    requestPost = query.creatablePost?.toModel() ?: PostModel()
+    stubCase = query.debug?.stubCase.toModel()
 }
 
 fun PostContext.setQuery(query: ReadPostRequest) = apply {
     operation = Operations.READ
     onRequest = query.requestId ?: ""
     requestPostId = PostIdModel(query.readPostId ?: "")
+    stubCase = query.debug?.stubCase.toModel()
 }
 
 fun PostContext.setQuery(query: UpdatePostRequest) = apply {
     operation = Operations.UPDATE
     onRequest = query.requestId ?: ""
     requestPost = query.updatePost?.toModel() ?: PostModel()
+    stubCase = query.debug?.stubCase.toModel()
 }
 
 fun PostContext.setQuery(query: DeletePostRequest) = apply {
     operation = Operations.DELETE
     onRequest = query.requestId ?: ""
     requestPostId = PostIdModel(query.deletePostId ?: "")
+    stubCase = query.debug?.stubCase.toModel()
 }
 
 fun PostContext.setQuery(query: SearchPostRequest) = apply {
     operation = Operations.SEARCH
     onRequest = query.requestId ?: ""
     requestPage = query.page?.toModel() ?: PaginatedModel()
+    stubCase = query.debug?.stubCase.toModel()
 }
 
 private fun BasePaginatedRequest.toModel() = PaginatedModel(
@@ -71,3 +78,9 @@ private fun UpdatablePost.toModel() = PostModel(
     ownerId = OwnerIdModel(ownerId ?: ""),
     status = status?.let { PostStatusModel.valueOf(it.name) } ?: PostStatusModel.DRAFT
 )
+
+private fun BaseDebugRequest.StubCase?.toModel() = when (this) {
+    BaseDebugRequest.StubCase.SUCCESS -> StubCase.SUCCESS
+    BaseDebugRequest.StubCase.DATABASE_ERROR -> StubCase.DATABASE_ERROR
+    null -> StubCase.NONE
+}

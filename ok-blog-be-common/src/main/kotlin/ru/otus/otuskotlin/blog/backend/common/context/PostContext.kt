@@ -3,6 +3,7 @@ package ru.otus.otuskotlin.blog.backend.common.context
 import ru.otus.otuskotlin.blog.backend.common.models.CommonErrorModel
 import ru.otus.otuskotlin.blog.backend.common.models.IError
 import ru.otus.otuskotlin.blog.backend.common.models.PaginatedModel
+import ru.otus.otuskotlin.blog.backend.common.models.StubCase
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostIdModel
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostModel
 import java.time.Instant
@@ -10,6 +11,7 @@ import java.time.Instant
 data class PostContext(
     var startTime: Instant = Instant.MIN,
     var operation: Operations = Operations.NONE,
+    var stubCase: StubCase = StubCase.NONE,
 
     var onRequest: String = "",
     var requestPostId: PostIdModel = PostIdModel.NONE,
@@ -19,7 +21,7 @@ data class PostContext(
     var responsePage: PaginatedModel = PaginatedModel(),
     var responsePosts: MutableList<PostModel> = mutableListOf(),
     var errors: MutableList<IError> = mutableListOf(),
-    var status: CorStatus = CorStatus.STARTED,
+    var status: CorStatus = CorStatus.NONE,
 ) {
     /**
      * Добавляет ошибку в контекст

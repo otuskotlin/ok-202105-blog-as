@@ -3,6 +3,7 @@ package ru.otus.otuskotlin.blog
 import blog.stubs.PostStub
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import ru.otus.otuskotlin.blog.openapi.models.BaseDebugRequest
+import ru.otus.otuskotlin.blog.openapi.models.CreatablePost
 import ru.otus.otuskotlin.blog.openapi.models.PostStatus
 import ru.otus.otuskotlin.blog.openapi.models.ResponsePost
 import ru.otus.otuskotlin.blog.openapi.models.UpdatablePost
@@ -23,7 +24,7 @@ object Utils {
         }
     }
 
-    val stubDebug = BaseDebugRequest(mode = BaseDebugRequest.Mode.STUB)
+    val stubSuccessDebug = BaseDebugRequest(mode = BaseDebugRequest.Mode.STUB, stubCase = BaseDebugRequest.StubCase.SUCCESS)
 
     val stubResponsePost = ResponsePost(
 
@@ -32,6 +33,13 @@ object Utils {
         ownerId = PostStub.getModel().ownerId.id,
         status = PostStatus.valueOf(PostStub.getModel().status.name),
         id = PostStub.getModel().id.id,
+    )
+
+    val stubCreatablePost = CreatablePost(
+        title = stubResponsePost.title,
+        content = stubResponsePost.content,
+        ownerId = stubResponsePost.ownerId,
+        status = stubResponsePost.status,
     )
 
     val stubUpdatablePost = UpdatablePost(

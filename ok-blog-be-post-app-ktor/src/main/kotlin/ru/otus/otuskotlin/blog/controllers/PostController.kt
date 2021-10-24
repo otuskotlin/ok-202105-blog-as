@@ -19,80 +19,80 @@ import ru.otus.otuskotlin.blog.openapi.models.UpdatePostRequest
 import ru.otus.otuskotlin.blog.openapi.models.UpdatePostResponse
 import java.time.Instant
 
-suspend fun ApplicationCall.initPost(PostService: PostService) {
+suspend fun ApplicationCall.initPost(postService: PostService) {
     val request = receive<InitPostRequest>()
     val context = PostContext(
         startTime = Instant.now()
     )
     val result = try {
-        PostService.initPost(context, request)
+        postService.initPost(context, request)
     } catch (e: Throwable) {
-        PostService.errorPost(context, e) as InitPostResponse
+        postService.errorPost(context, e) as InitPostResponse
     }
     respond(result)
 }
 
-suspend fun ApplicationCall.createPost(PostService: PostService) {
+suspend fun ApplicationCall.createPost(postService: PostService) {
     val request = receive<CreatePostRequest>()
     val context = PostContext(
         startTime = Instant.now()
     )
     val result = try {
-        PostService.createPost(context, request)
+        postService.createPost(context, request)
     } catch (e: Throwable) {
-        PostService.errorPost(context, e) as CreatePostResponse
+        postService.errorPost(context, e) as CreatePostResponse
     }
     respond(result)
 }
 
-suspend fun ApplicationCall.readPost(PostService: PostService) {
+suspend fun ApplicationCall.readPost(postService: PostService) {
     val request = receive<ReadPostRequest>()
     val context = PostContext(
         startTime = Instant.now()
     )
     val result = try {
-        PostService.readPost(context, request)
+        postService.readPost(context, request)
     } catch (e: Throwable) {
-        PostService.errorPost(context, e) as ReadPostResponse
+        postService.errorPost(context, e) as ReadPostResponse
     }
     respond(result)
 }
 
-suspend fun ApplicationCall.updatePost(PostService: PostService) {
+suspend fun ApplicationCall.updatePost(postService: PostService) {
     val request = receive<UpdatePostRequest>()
     val context = PostContext(
         startTime = Instant.now()
     )
     val result = try {
-        PostService.updatePost(context, request)
+        postService.updatePost(context, request)
     } catch (e: Throwable) {
-        PostService.errorPost(context, e) as UpdatePostResponse
+        postService.errorPost(context, e) as UpdatePostResponse
     }
     respond(result)
 }
 
-suspend fun ApplicationCall.deletePost(PostService: PostService) {
+suspend fun ApplicationCall.deletePost(postService: PostService) {
     val request = receive<DeletePostRequest>()
     val context = PostContext(
         startTime = Instant.now()
     )
     val result = try {
-        PostService.deletePost(context, request)
+        postService.deletePost(context, request)
     } catch (e: Throwable) {
-        PostService.errorPost(context, e) as DeletePostResponse
+        postService.errorPost(context, e) as DeletePostResponse
     }
     respond(result)
 }
 
-suspend fun ApplicationCall.searchPost(PostService: PostService) {
+suspend fun ApplicationCall.searchPost(postService: PostService) {
     val request = receive<SearchPostRequest>()
     val context = PostContext(
         startTime = Instant.now()
     )
     val result = try {
-        PostService.searchPost(context, request)
+        postService.searchPost(context, request)
     } catch (e: Throwable) {
-        PostService.errorPost(context, e) as SearchPostResponse
+        postService.errorPost(context, e) as SearchPostResponse
     }
     respond(result)
 }
