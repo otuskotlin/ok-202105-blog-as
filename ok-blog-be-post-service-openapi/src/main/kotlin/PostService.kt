@@ -1,6 +1,7 @@
 package ru.otus.otuskotlin.blog.backend.services
 
 import ru.otus.otuskotlin.blog.backend.common.context.PostContext
+import ru.otus.otuskotlin.blog.backend.services.exceptions.DataNotAllowedException
 import ru.otus.otuskotlin.blog.backend.transport.mapping.setQuery
 import ru.otus.otuskotlin.blog.backend.transport.mapping.toCreateResponse
 import ru.otus.otuskotlin.blog.backend.transport.mapping.toDeleteResponse
@@ -24,6 +25,20 @@ import ru.otus.otuskotlin.blog.openapi.models.UpdatePostRequest
 import ru.otus.otuskotlin.blog.openapi.models.UpdatePostResponse
 
 class PostService(private val crud: PostCrud) {
+    suspend fun handlePost(context: PostContext, request: BaseMessage): BaseMessage = try {
+        when (request) {
+            is InitPostRequest -> initPost(context, request)
+            is CreatePostRequest -> createPost(context, request)
+            is ReadPostRequest -> readPost(context, request)
+            is UpdatePostRequest -> updatePost(context, request)
+            is DeletePostRequest -> deletePost(context, request)
+            is SearchPostRequest -> searchPost(context, request)
+            else -> throw DataNotAllowedException("Request is not Allowed", request)
+        }
+    } catch (e: Throwable) {
+        errorPost(context, e)
+    }
+
     suspend fun createPost(context: PostContext, request: CreatePostRequest): CreatePostResponse {
         crud.create(context.setQuery(request))
         return context.toCreateResponse()
@@ -49,12 +64,12 @@ class PostService(private val crud: PostCrud) {
         return context.toSearchResponse()
     }
 
-    fun errorPost(context: PostContext, e: Throwable): BaseMessage {
+    suspend fun errorPost(context: PostContext, e: Throwable): BaseMessage {
         context.addError(e)
         return context.toReadResponse()
     }
 
-    fun initPost(context: PostContext, request: InitPostRequest): InitPostResponse {
+    suspend fun initPost(context: PostContext, request: InitPostRequest): InitPostResponse {
         context.setQuery(request)
         return context.toInitResponse()
     }
