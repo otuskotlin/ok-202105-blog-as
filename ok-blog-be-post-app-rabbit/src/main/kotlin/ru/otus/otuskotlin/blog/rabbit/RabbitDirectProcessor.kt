@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.DeliverCallback
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import ru.otus.otuskotlin.blog.backend.common.context.CorStatus
 import ru.otus.otuskotlin.blog.backend.common.context.PostContext
 import ru.otus.otuskotlin.blog.backend.services.PostService
@@ -31,18 +34,21 @@ class RabbitDirectProcessor(
                     startTime = Instant.now()
                 )
                 try {
-                    val query = jacksonMapper.readValue(message.body, BaseMessage::class.java)
+                    val query =
+                        withContext(Dispatchers.IO) { jacksonMapper.readValue(message.body, BaseMessage::class.java) }
                     val response = service.handlePost(context, query)
-                    jacksonMapper.writeValueAsBytes(response).also {
+                    withContext(Dispatchers.IO) { jacksonMapper.writeValueAsBytes(response) }.also {
                         channel.basicPublish(exchange, keyOut, null, it)
                     }
                 } catch (e: Throwable) {
-                    e.printStackTrace()
-                    context.status = CorStatus.ERROR
-                    context.addError(e = e)
-                    val response = context.toInitResponse()
-                    jacksonMapper.writeValueAsBytes(response).also {
-                        channel.basicPublish(exchange, keyOut, null, it)
+                    withContext(NonCancellable) {
+                        e.printStackTrace()
+                        context.status = CorStatus.ERROR
+                        context.addError(e = e)
+                        val response = context.toInitResponse()
+                        jacksonMapper.writeValueAsBytes(response).also {
+                            channel.basicPublish(exchange, keyOut, null, it)
+                        }
                     }
                 }
             }
