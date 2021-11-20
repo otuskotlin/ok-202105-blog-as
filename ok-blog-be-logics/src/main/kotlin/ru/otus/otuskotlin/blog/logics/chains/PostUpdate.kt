@@ -9,6 +9,8 @@ import ru.otus.otuskotlin.blog.logics.chains.stubs.adUpdateStub
 import ru.otus.otuskotlin.blog.logics.workers.answerPrepareChain
 import ru.otus.otuskotlin.blog.logics.workers.chainInitWorker
 import ru.otus.otuskotlin.blog.logics.workers.checkOperationWorker
+import ru.otus.otuskotlin.blog.logics.workers.chooseDb
+import ru.otus.otuskotlin.blog.logics.workers.repoUpdate
 import ru.otus.otuskotlin.blog.validation.validators.ValidatorStringNonEmpty
 
 object PostUpdate : ICorExec<PostContext> by chain<PostContext>({
@@ -17,6 +19,7 @@ object PostUpdate : ICorExec<PostContext> by chain<PostContext>({
         targetOperation = Operations.UPDATE,
     )
     chainInitWorker(title = "Инициализация чейна")
+    chooseDb(title = "Выбираем БД или STUB")
     adUpdateStub(title = "Обработка стабкейса для UPDATE")
 
     beValidation {
@@ -30,7 +33,7 @@ object PostUpdate : ICorExec<PostContext> by chain<PostContext>({
         }
     }
 
-    // TODO: продовая логика, работа с БД
+    repoUpdate(title = "Обновление данных об объекте в БД")
 
     answerPrepareChain(title = "Подготовка ответа")
 }).build()

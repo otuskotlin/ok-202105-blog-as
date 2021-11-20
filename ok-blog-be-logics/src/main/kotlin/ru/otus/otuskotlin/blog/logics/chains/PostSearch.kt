@@ -9,6 +9,8 @@ import ru.otus.otuskotlin.blog.logics.chains.stubs.postSearchStub
 import ru.otus.otuskotlin.blog.logics.workers.answerPrepareChain
 import ru.otus.otuskotlin.blog.logics.workers.chainInitWorker
 import ru.otus.otuskotlin.blog.logics.workers.checkOperationWorker
+import ru.otus.otuskotlin.blog.logics.workers.chooseDb
+import ru.otus.otuskotlin.blog.logics.workers.repoSearch
 
 object PostSearch : ICorExec<PostContext> by chain<PostContext>({
     checkOperationWorker(
@@ -16,11 +18,13 @@ object PostSearch : ICorExec<PostContext> by chain<PostContext>({
         targetOperation = Operations.SEARCH,
     )
     chainInitWorker(title = "Инициализация чейна")
+    chooseDb(title = "Выбираем БД или STUB")
     postSearchStub(title = "Обработка стабкейса для SEARCH")
 
     beValidation {
     }
-    // TODO: продовая логика, работа с БД
+
+    repoSearch(title = "Поиск объявлений в БД")
 
     answerPrepareChain(title = "Подготовка ответа")
 }).build()

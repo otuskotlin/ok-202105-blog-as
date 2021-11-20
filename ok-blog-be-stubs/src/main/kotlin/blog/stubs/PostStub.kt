@@ -7,7 +7,7 @@ import ru.otus.otuskotlin.blog.backend.common.models.post.PostStatusModel
 
 object PostStub {
     private val stubDraft = PostModel(
-        id = PostIdModel("id-1"),
+        id = PostIdModel(id = "11111111-1111-1111-1111-111111111666"),
         title = "This is title",
         content = "This is really interesting content. Do you see it?",
         ownerId = OwnerIdModel("owner_id-1"),
@@ -15,14 +15,14 @@ object PostStub {
     )
 
     private val stubPublished = PostModel(
-        id = PostIdModel("id-2"),
+        id = PostIdModel(id = "11111111-1111-1111-1111-111112345678"),
         title = "Another post",
         content = "Awesome content here now.",
         ownerId = OwnerIdModel("owner_id-1"),
         status = PostStatusModel.PUBLISHED,
     )
 
-    fun getModel(model: (PostModel.() -> Unit)? = null) = stubPublished.also { stub ->
+    fun getModel(model: (PostModel.() -> Unit)? = null) = stubPublished.copy().also { stub ->
         model?.let { stub.apply(it) }
     }
 
