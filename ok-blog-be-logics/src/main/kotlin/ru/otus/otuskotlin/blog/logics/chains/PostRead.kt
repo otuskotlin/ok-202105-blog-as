@@ -9,6 +9,8 @@ import ru.otus.otuskotlin.blog.logics.chains.stubs.postReadStub
 import ru.otus.otuskotlin.blog.logics.workers.answerPrepareChain
 import ru.otus.otuskotlin.blog.logics.workers.chainInitWorker
 import ru.otus.otuskotlin.blog.logics.workers.checkOperationWorker
+import ru.otus.otuskotlin.blog.logics.workers.chooseDb
+import ru.otus.otuskotlin.blog.logics.workers.repoRead
 import ru.otus.otuskotlin.blog.validation.validators.ValidatorStringNonEmpty
 
 object PostRead : ICorExec<PostContext> by chain<PostContext>({
@@ -17,16 +19,17 @@ object PostRead : ICorExec<PostContext> by chain<PostContext>({
         targetOperation = Operations.READ,
     )
     chainInitWorker(title = "Инициализация чейна")
+    chooseDb(title = "Выбираем БД или STUB")
     postReadStub(title = "Обработка стабкейса для READ")
 
     beValidation {
         validate<String?> {
-            on { responsePost.id.asString() }
+            on { requestPostId.asString() }
             validator(ValidatorStringNonEmpty(field = "id"))
         }
     }
 
-    // TODO: продовая логика, работа с БД
+    repoRead(title = "Чтение объекта из БД")
 
     answerPrepareChain(title = "Подготовка ответа")
 }).build()

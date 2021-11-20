@@ -9,6 +9,8 @@ import ru.otus.otuskotlin.blog.logics.chains.stubs.postDeleteStub
 import ru.otus.otuskotlin.blog.logics.workers.answerPrepareChain
 import ru.otus.otuskotlin.blog.logics.workers.chainInitWorker
 import ru.otus.otuskotlin.blog.logics.workers.checkOperationWorker
+import ru.otus.otuskotlin.blog.logics.workers.chooseDb
+import ru.otus.otuskotlin.blog.logics.workers.repoDelete
 import ru.otus.otuskotlin.blog.validation.validators.ValidatorStringNonEmpty
 
 object PostDelete : ICorExec<PostContext> by chain<PostContext>({
@@ -17,6 +19,7 @@ object PostDelete : ICorExec<PostContext> by chain<PostContext>({
         targetOperation = Operations.DELETE,
     )
     chainInitWorker(title = "Инициализация чейна")
+    chooseDb(title = "Выбираем БД или STUB")
     postDeleteStub(title = "Обработка стабкейса для DELETE")
 
     beValidation {
@@ -26,7 +29,7 @@ object PostDelete : ICorExec<PostContext> by chain<PostContext>({
         }
     }
 
-    // TODO: продовая логика, работа с БД
+    repoDelete(title = "Удаление объекта из БД")
 
     answerPrepareChain(title = "Подготовка ответа")
 }).build()

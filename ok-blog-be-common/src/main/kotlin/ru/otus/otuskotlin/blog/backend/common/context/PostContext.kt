@@ -4,18 +4,26 @@ import ru.otus.otuskotlin.blog.backend.common.models.CommonErrorModel
 import ru.otus.otuskotlin.blog.backend.common.models.IError
 import ru.otus.otuskotlin.blog.backend.common.models.PaginatedModel
 import ru.otus.otuskotlin.blog.backend.common.models.StubCase
+import ru.otus.otuskotlin.blog.backend.common.models.WorkMode
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostIdModel
 import ru.otus.otuskotlin.blog.backend.common.models.post.PostModel
+import ru.otus.otuskotlin.blog.backend.repo.common.post.DbPostFilterRequest
+import ru.otus.otuskotlin.blog.backend.repo.common.post.IRepoPost
 import java.time.Instant
 
 data class PostContext(
     var startTime: Instant = Instant.MIN,
     var operation: Operations = Operations.NONE,
+    var workMode: WorkMode = WorkMode.PROD,
     var stubCase: StubCase = StubCase.NONE,
+    var config: ContextConfig = ContextConfig(),
+
+    var postRepo: IRepoPost = IRepoPost.NONE,
 
     var onRequest: String = "",
     var requestPostId: PostIdModel = PostIdModel.NONE,
     var requestPost: PostModel = PostModel(),
+    var requestFilter: DbPostFilterRequest = DbPostFilterRequest(),
     var responsePost: PostModel = PostModel(),
     var requestPage: PaginatedModel = PaginatedModel(),
     var responsePage: PaginatedModel = PaginatedModel(),

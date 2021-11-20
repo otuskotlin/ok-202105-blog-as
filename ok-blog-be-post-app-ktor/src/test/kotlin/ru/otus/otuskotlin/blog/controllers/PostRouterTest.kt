@@ -84,7 +84,7 @@ class PostRouterTest : RouterTest() {
         }
     }
 
-    @Test
+//    @Test
     fun testPostSearch() {
         val data = SearchPostRequest(
             requestId = "1234",
